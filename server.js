@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -31,6 +32,22 @@ mongoose
 
 // Initialies application
 const app = express();
+
+// CORS (Cross Origin Resource Sharing) 
+// CORS, web uygulamanıza kendi domaininiz haricinde dışardan gelen istekleri yönetmenizi sağlayan bir mekanizma
+// cross-domain request
+
+// RESPONSE HEADERS a asagidakileri ekliyor
+// Access-Control-Allow-Credentials: true
+// Access-Control-Allow-Headers: content-type
+// Access-Control-Allow-Methods: GET,HEAD,PUT,PATCH,POST,DELETE
+// Access-Control-Allow-Origin: http://localhost:3000
+
+const corsOption = { 
+   origin: "http://localhost:3000",
+   credentials: true
+}
+app.use(cors(corsOption));
 
 // Create GraphGL application
 app.use('/graphiql', graphiqlExpress({endpointURL: 'graphql'}));
