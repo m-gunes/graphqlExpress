@@ -13,7 +13,7 @@ const initialState = {
 class Signup extends Component {
    state = { ...initialState }
 
-   clearStateNazan = () => {
+   clearState = () => {
       this.setState({ ...initialState })
    }
 
@@ -29,9 +29,10 @@ class Signup extends Component {
    }
    handleSubmit = (event, signupUser) => {
       event.preventDefault();
-      signupUser().then(data => {
-         console.log(data)
-         this.clearStateNazan();
+      signupUser().then(({data}) => {
+         console.log(data);
+         localStorage.setItem('token', data.signinUser.token);
+         this.clearState();
       })
    }
    render() {
