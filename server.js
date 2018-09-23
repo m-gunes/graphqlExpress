@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -53,7 +54,16 @@ app.use(cors(corsOption));
 // Set up JWT authentication middleware
 app.use(async(req, res, next) => {
    const token = req.headers['authorization'];
-   console.log(token);
+   if(token !== "null"){
+      try {
+         const currentUser = await jwt.verify(token, process.env.SECRET);
+         req.currentUser = currentUser;
+         console.log('currentUser ', currentUser);
+         
+      } catch (error) {
+         console.log(error);
+      }
+   }
    next();
 });
 
@@ -65,13 +75,14 @@ app.use('/graphiql', graphiqlExpress({endpointURL: 'graphql'}));
 app.use(
    '/graphql',
    bodyParser.json(),
-   graphqlExpress({
+   graphqlExpress(({currentUser}) => ({
       schema,
       context: {
          Recipe,
-         User
+         User,
+         currentUser
       }
-   })
+   }))
 )
 
 const PORT = process.env.PORT || 4444;
