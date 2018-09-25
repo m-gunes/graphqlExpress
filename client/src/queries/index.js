@@ -1,4 +1,5 @@
 import { gql } from 'apollo-boost';
+import { Mutation } from 'react-apollo';
 
 
 /* Recipes Queries */
@@ -25,6 +26,7 @@ export const GET_RECIPE = gql`
          instructions
          createdDate
          likes
+         username
       }
    }
 
@@ -33,6 +35,35 @@ export const GET_RECIPE = gql`
 
 
 /* Recipes Mutations */
+
+export const ADD_RECIPE = gql`
+
+   mutation(
+      $name: String!,
+      $category: String!,
+      $description: String!,
+      $instructions: String!,
+      $username: String
+      ) {
+         addRecipe(
+            name: $name,
+            category: $category,
+            description: $description,
+            instructions: $instructions,
+            username: $username
+         ) {
+            _id
+            name
+            category
+            description
+            instructions
+            createdDate
+            likes
+         }
+      }
+
+`;
+
 
 
 
