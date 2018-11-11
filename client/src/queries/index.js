@@ -124,3 +124,13 @@ export const SIGNUP_USER = gql`
 
 
 `;
+
+export const DELETE_USER_RECIPE = gql`
+
+   mutation($_id: ID) {
+      deleteRecipeUser(_id: $_id) {
+         _id
+      }
+   }
+
+`;
